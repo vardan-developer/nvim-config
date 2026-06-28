@@ -1,14 +1,14 @@
 local map = vim.keymap.set
 
-vim.g.mapleader = " "        -- space as leader
-vim.g.maplocalleader = " "   -- localleader (used by some plugins)
+vim.g.mapleader = " " -- space as leader
+vim.g.maplocalleader = " " -- localleader (used by some plugins)
 
 vim.g.clipboard = {
-  name = "OSC 52",
-  copy = {
-    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-  },
+	name = "OSC 52",
+	copy = {
+		["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+		["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+	},
 }
 
 -- This is just for the NFS folders saving because otherwise it causes issues in saving xattrs
@@ -40,9 +40,23 @@ map("n", "<C-d>", "<C-d>zz", { desc = "Half page down + center" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Half page up + center" })
 
 -- Move back to last position of cursor using =,-
-map("n", "=", "<C-i>", { desc = "Jump to the previous position you jumped from" })
-map("n", "-", "<C-o>", { desc = "Jump to the next position you jumped to" })
+map("n", "=", "<C-i>", { desc = "Jump to the next position you jumped from" })
+map("n", "-", "<C-o>", { desc = "Jump to the previous location you jumped from" })
 
 -- Auto recenter after n and N
-map('n', 'n', 'nzz', { desc = "Auto recenter after n" })
-map('n', 'N', 'Nzz', { desc = "Auto recenter after N" })
+map("n", "n", "nzz", { desc = "Auto recenter after n" })
+map("n", "N", "Nzz", { desc = "Auto recenter after N" })
+
+-- Open the file explorer
+map("n", "<Leader>e", "<cmd>Ex<cr>", { desc = "Open Netrw using leader pe" })
+
+-- Remap formatting file keybind to leader + f using conform
+map({ "n", "v" }, "<leader>f", function()
+	require("conform").format({ async = true, lsp_format = "fallback" })
+end, { desc = "Format file/selection" })
+
+-- Toggle comment on current line (normal mode)
+vim.keymap.set("n", "<leader>/", "gcc", { remap = true, desc = "Toggle comment" })
+
+-- Toggle comment on selection (visual mode)
+vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment" })
