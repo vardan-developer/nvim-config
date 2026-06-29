@@ -8,6 +8,9 @@ return {
 			build = "make", -- compiles a C sorter for speed (needs gcc + make)
 		},
 	},
+	opts = { 
+        preview = { treesitter = false } 
+    },
 	config = function()
 		local telescope = require("telescope")
 		telescope.setup({})
