@@ -50,13 +50,7 @@ map("n", "N", "Nzz", { desc = "Auto recenter after N" })
 -- Open the file explorer
 map("n", "<Leader>e", "<cmd>Ex<cr>", { desc = "Open Netrw using leader pe" })
 
--- Remap formatting file keybind to leader + f using conform
-map({ "n", "v" }, "<leader>f", function()
+-- Remap formatting file keybind to leader + fm using conform
+map({ "n", "v" }, "<leader>fm", function()
 	require("conform").format({ async = true, lsp_format = "fallback" })
 end, { desc = "Format file/selection" })
-
--- Toggle comment on current line (normal mode)
-vim.keymap.set("n", "<leader>/", "gcc", { remap = true, desc = "Toggle comment" })
-
--- Toggle comment on selection (visual mode)
-vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment" })
