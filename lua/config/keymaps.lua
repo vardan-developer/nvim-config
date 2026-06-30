@@ -4,12 +4,18 @@ vim.g.mapleader = " " -- space as leader
 vim.g.maplocalleader = " " -- localleader (used by some plugins)
 
 vim.g.clipboard = {
-	name = "OSC 52",
-	copy = {
-		["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-		["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-	},
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+  },
 }
+
+vim.opt.clipboard = 'unnamedplus'
 
 -- This is just for the NFS folders saving because otherwise it causes issues in saving xattrs
 vim.cmd([[cnoreabbrev <expr> w  (getcmdtype()==':' && getcmdline()==#'w')  ? 'silent! write'              : 'w']])
