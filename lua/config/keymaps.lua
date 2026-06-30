@@ -60,3 +60,6 @@ map("n", "<Leader>e", "<cmd>Ex<cr>", { desc = "Open Netrw using leader pe" })
 map({ "n", "v" }, "<leader>fm", function()
 	require("conform").format({ async = true, lsp_format = "fallback" })
 end, { desc = "Format file/selection" })
+
+-- Copy the word with yw instead of yiw
+map({ "n" }, "yw", "yiw", { desc = "yank the inner word" })
