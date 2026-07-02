@@ -39,4 +39,26 @@ return {
 			multiline_threshold = 1,
 		},
 	},
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		branch = "main",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		config = function()
+
+			-- MOVE between text objects
+			local move = require("nvim-treesitter-textobjects.move")
+			vim.keymap.set({ "n", "x", "o" }, "]f", function()
+				move.goto_next_start("@function.outer", "textobjects")
+			end, { desc = "Next function start" })
+			vim.keymap.set({ "n", "x", "o" }, "]F", function()
+				move.goto_next_end("@function.outer", "textobjects")
+			end, { desc = "Next function end" })
+			vim.keymap.set({ "n", "x", "o" }, "[f", function()
+				move.goto_previous_start("@function.outer", "textobjects")
+			end, { desc = "Prev function start" })
+			vim.keymap.set({ "n", "x", "o" }, "[F", function()
+				move.goto_previous_end("@function.outer", "textobjects")
+			end, { desc = "Prev function end" })
+		end,
+	},
 }
