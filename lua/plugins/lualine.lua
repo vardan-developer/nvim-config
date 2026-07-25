@@ -32,6 +32,21 @@ return {
 			return line ~= 0 and "tw:" .. line or ""
 		end
 
+		-- ● rec @q while a macro is recording, empty otherwise
+		local function macro_recording()
+			local reg = vim.fn.reg_recording()
+			return reg ~= "" and "● rec @" .. reg or ""
+		end
+		-- statusline only refreshes on its timer; force it so the indicator
+		-- appears/disappears the moment recording starts or stops
+		vim.api.nvim_create_autocmd({ "RecordingEnter", "RecordingLeave" }, {
+			callback = function()
+				vim.schedule(function()
+					require("lualine").refresh()
+				end)
+			end,
+		})
+
 		-- line number of the first mixed tab/space indentation, empty when clean
 		local function mixed_indent()
 			local space_indent = vim.fn.search([[\v^ +]], "nwc")
@@ -68,6 +83,7 @@ return {
 				-- filename with path relative to cwd, [+] when modified
 				lualine_c = { { "filename", path = 1 }, harpoon_slot },
 				lualine_x = {
+					{ macro_recording, color = "DiagnosticError" },
 					-- code-hygiene warnings, shown only when something is off
 					{ trailing_whitespace, color = "DiagnosticError" },
 					{ mixed_indent, color = "DiagnosticError" },
@@ -88,7 +104,7 @@ return {
 					},
 					"filetype",
 				},
-				lualine_y = { "searchcount", "progress" },
+				lualine_y = { "progress" },
 				lualine_z = { "location" },
 			},
 		}
