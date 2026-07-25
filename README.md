@@ -63,8 +63,13 @@ npm install -g tree-sitter-cli
 ### macOS (Homebrew)
 ```bash
 xcode-select --install
-brew install node python tree-sitter
+brew install node python
+cargo install tree-sitter-cli
 ```
+
+The `tree-sitter` CLI comes from cargo, not brew — the brew formula is kept
+unlinked as a library dependency of neovim itself, so its binary never lands
+on PATH.
 
 ### Then get the config
 
