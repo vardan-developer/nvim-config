@@ -20,5 +20,10 @@ return {
 		vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help tags" })
 		vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Recent files" })
 		vim.keymap.set("n", "<leader>/", builtin.current_buffer_fuzzy_find, { desc = "Fuzzy find in current file" })
+		vim.keymap.set("n", "<leader>fa", function()
+			-- Grep the word under the cursor across the project; start in
+			-- normal mode so j/k browse results right away.
+			builtin.grep_string({ initial_mode = "normal" })
+		end, { desc = "Find word under cursor in project" })
 	end,
 }
