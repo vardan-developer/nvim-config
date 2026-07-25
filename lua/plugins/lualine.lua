@@ -4,7 +4,7 @@ return {
 	event = "VeryLazy", -- not needed instantly, so defer it
 	opts = {
 		options = {
-			theme = "kanagawa", -- match your colorscheme
+			theme = "auto", -- follow whatever colorscheme is active
 		},
 	},
 	enabled = true,
