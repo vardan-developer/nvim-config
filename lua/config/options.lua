@@ -4,6 +4,7 @@ local opt = vim.opt
 opt.mouse = "a"
 opt.clipboard = "unnamedplus" -- use the system clipboard
 opt.swapfile = false -- no swap files (using auto-save.nvim)
+opt.undofile = true -- persist undo history to disk, survives closing nvim
 
 -- UI / display
 opt.termguicolors = true -- enable 24-bit colors (set this early)
