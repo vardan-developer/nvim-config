@@ -28,8 +28,16 @@ map("n", "<M-q>", "<cmd>q<cr>", { desc = "use meta+q to exit panes" })
 map({ "n", "x" }, ";", ":", { desc = "Command mode" })
 map({ "n", "x" }, "'", ";", { desc = "Repeat find" })
 
--- Clear search highlight after a search, by pressing Esc
-map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
+-- Clear search highlight after a search, by pressing Esc.
+-- Also dismisses flash's f/t highlights: flash normally sees the raw
+-- <Esc> keypress, but this mapping consumes it, so hide it explicitly.
+map("n", "<Esc>", function()
+	vim.cmd("nohlsearch")
+	local char = package.loaded["flash.plugins.char"]
+	if char and char.state then
+		char.state:hide()
+	end
+end, { desc = "Clear search & flash highlights" })
 
 -- Move between split windows with Ctrl + h/j/k/l (no Ctrl-w prefix needed)
 map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
