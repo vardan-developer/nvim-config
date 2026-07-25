@@ -20,5 +20,7 @@ require("lazy").setup({
 	spec = {
 		{ import = "plugins" }, -- load every file in lua/plugins/
 	},
-	checker = { enabled = true }, -- auto-check for plugin updates
+	-- Still checks for updates in the background (visible in :Lazy),
+	-- but notify = false stops the "updates available" popup on startup.
+	checker = { enabled = true, notify = false },
 })
