@@ -1,6 +1,6 @@
 return {
 	"nvim-telescope/telescope.nvim",
-	branch = "0.1.x",
+	branch = "master", -- 0.1.x is frozen; master supports the new treesitter APIs
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required utility library
 		{
@@ -8,9 +8,6 @@ return {
 			build = "make", -- compiles a C sorter for speed (needs gcc + make)
 		},
 	},
-	opts = { 
-        preview = { treesitter = false } 
-    },
 	config = function()
 		local telescope = require("telescope")
 		telescope.setup({})
