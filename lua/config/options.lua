@@ -32,5 +32,9 @@ opt.foldlevelstart = 99 -- start with everything unfolded
 opt.formatoptions:append("cro") -- continue comments on new lines (C-u to remove)
 opt.sessionoptions:remove("options") -- don't persist keymaps/local options
 
--- Always have buffer on top and bottom of screen 
+-- Always have buffer on top and bottom of screen
 opt.scrolloff = 8
+
+-- Hide the command bar when idle; it pops up while typing : or /
+-- (noice.nvim routes messages/cmdline so this stays usable)
+opt.cmdheight = 0
