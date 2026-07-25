@@ -132,3 +132,41 @@ Mason installs the LSP servers. Restart Neovim once it settles.
 
 - **Stuck?** Start with the matching `:checkhealth` command — it usually names the
   cause. For Mason install errors, `:MasonLog` has the real error.
+
+## Troubleshooting
+
+### Syntax highlighting silently broken (e.g. C++ files look almost uncolored)
+
+Happens on machines that ever ran the nvim-treesitter **master** branch before this
+config switched to **main**. Symptoms: lua/markdown files highlight fine, but cpp,
+python, rust etc. are nearly bare — while LSP still works.
+
+Cause: the old master branch compiled parsers *into the plugin directory itself*
+(`parser/`, `parser-info/`). Those are untracked files, so they survive the branch
+switch — but master's query files were tracked, so they get deleted by it. The main
+branch installer then sees the leftover parsers, assumes everything is installed, and
+never installs its own parsers + highlight queries into `~/.local/share/nvim/site`.
+Result: treesitter attaches with a parser but no queries (which also disables the old
+regex highlighting). Lua/markdown still work only because Neovim core ships queries
+for them.
+
+Fix — delete the stale leftovers and reinstall:
+
+```bash
+rm -rf ~/.local/share/nvim/lazy/nvim-treesitter/parser \
+       ~/.local/share/nvim/lazy/nvim-treesitter/parser-info
+```
+
+then reopen Neovim (the config auto-installs parsers on startup), or run the install
+explicitly and wait for it:
+
+```bash
+nvim --headless "+lua require('nvim-treesitter').install({'lua','vim','vimdoc','query','bash','markdown','markdown_inline','python','json','yaml','rust','cpp','c'}):wait(300000)" +qa
+```
+
+Verify with `:checkhealth nvim-treesitter` and by confirming
+`~/.local/share/nvim/site/queries/cpp/highlights.scm` exists.
+
+Related requirements that fail with clearer errors: Neovim **0.12+** (older gives
+`attempt to index field 'list'` during install) and the `tree-sitter` CLI on PATH
+(missing gives `ENOENT ... 'tree-sitter'`).
