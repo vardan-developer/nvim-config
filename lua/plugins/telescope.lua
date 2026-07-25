@@ -19,5 +19,6 @@ return {
 		vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Open buffers" })
 		vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help tags" })
 		vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Recent files" })
+		vim.keymap.set("n", "<leader>/", builtin.current_buffer_fuzzy_find, { desc = "Fuzzy find in current file" })
 	end,
 }
