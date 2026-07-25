@@ -25,5 +25,12 @@ return {
 			-- normal mode so j/k browse results right away.
 			builtin.grep_string({ initial_mode = "normal" })
 		end, { desc = "Find word under cursor in project" })
+		vim.keymap.set("n", "<leader>fi", function()
+			-- Same as <leader>fa but scoped to the current buffer only.
+			builtin.current_buffer_fuzzy_find({
+				default_text = vim.fn.expand("<cword>"),
+				initial_mode = "normal",
+			})
+		end, { desc = "Find word under cursor in current file" })
 	end,
 }
