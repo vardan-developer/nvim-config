@@ -30,6 +30,7 @@ return {
 				map("K", vim.lsp.buf.hover, "Hover docs")
 				map("<leader>rn", vim.lsp.buf.rename, "Rename")
 				map("<leader>ca", vim.lsp.buf.code_action, "Code action")
+                map("<leader>d", vim.diagnostic.open_float, "Show diagnostics")
 			end,
 		})
 	end,
