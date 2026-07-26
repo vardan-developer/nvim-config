@@ -2,8 +2,10 @@
 
 Lua config for **Neovim 0.12+**. Plugins are managed by [lazy.nvim](https://github.com/folke/lazy.nvim),
 LSP servers and tools by [Mason](https://github.com/mason-org/mason.nvim), syntax by
-nvim-treesitter (**main** branch), and formatting by conform.nvim. Everything bootstraps
-itself on first launch — clone, install the system dependencies below, open `nvim`.
+nvim-treesitter (**main** branch), and formatting by conform.nvim. Theme is
+modus-themes (`modus_vivendi`), the command bar is hidden (`cmdheight=0` + noice.nvim),
+and the statusline is a customized lualine. Everything bootstraps itself on first
+launch — clone, install the system dependencies below, open `nvim`.
 
 ## Structure
 
@@ -17,9 +19,18 @@ lua/plugins/             # one file per plugin, auto-imported by lazy.nvim
   lsp.lua                # LSP server settings + LSP keymaps
   mason.lua              # which servers/tools get installed
   treesitter.lua         # parsers + highlighting
-  formatting.lua         # conform.nvim (format on <leader>f)
-  completions.lua, telescope.lua, neotree.lua, harpoon.lua,
-  colorscheme.lua, lualine.lua, mini-ai.lua, mini-surround.lua, ...
+  formatting.lua         # conform.nvim (format on <leader>fm)
+  colorscheme.lua        # modus-themes (oxocarbon/kanagawa installed as alternates)
+  lualine.lua            # statusline: harpoon slot, macro rec, hygiene warnings
+  noice.lua              # cmdline popup + message routing (enables cmdheight=0)
+  telescope.lua          # fuzzy finding (see keymaps below)
+  gitsigns.lua           # git gutter signs + hunk stage/reset/preview/blame
+  git-conflict.lua       # merge conflict resolution (co/ct/cb/c0, ]x/[x)
+  undotree.lua           # undo history tree (<leader>u), pairs with undofile
+  flash.lua              # 2-char jump (S) + enhanced f/t with same-key repeat
+  which-key.lua          # keymap popup when you pause after <leader>
+  completions.lua, neotree.lua, harpoon.lua,
+  mini-ai.lua, mini-surround.lua, mini-pairs.lua
 lazy-lock.json           # pinned plugin versions
 ```
 
@@ -31,6 +42,27 @@ lazy-lock.json           # pinned plugin versions
   plus the tools `stylua` and `ruff`.
 - Treesitter installs its parsers and turns on highlighting per filetype.
 - conform.nvim formats with `stylua` (Lua) and `ruff` (Python).
+- The update checker runs silently (`notify = false`); pending updates show in `:Lazy`.
+- Undo history persists to disk (`undofile`), so undotree can restore states from
+  previous sessions.
+
+## Notable keymaps
+
+Leader is `<space>`. `;` is remapped to `:` (command mode) and `'` repeats `f`/`t`.
+
+| Keys | Action |
+|---|---|
+| `<leader>ff` / `fg` / `fb` / `fh` / `fr` | telescope: files / live grep / buffers / help / recent |
+| `<leader>/` | fuzzy find within the current file |
+| `<leader>fa` / `<leader>fi` | find word under cursor: project-wide / current file |
+| `<leader>fm` | format file or selection (conform) |
+| `<leader>a`, `<leader>s`, `<leader>1-5` | harpoon: add, menu, jump to slot |
+| `S` + 2 chars + label | flash jump anywhere on screen |
+| `f`/`t` then `f`/`F` again | enhanced find-char, same-key repeat next/prev |
+| `]h` / `[h`, `<leader>hp/hs/hr/hb` | git hunks: jump, preview, stage, reset, blame line |
+| `co` / `ct` / `cb` / `c0`, `]x` / `[x` | merge conflicts: ours/theirs/both/none, jump |
+| `<leader>u` | toggle undotree |
+| `Esc` | clear search highlight + flash f/t state |
 
 ## What to install
 
