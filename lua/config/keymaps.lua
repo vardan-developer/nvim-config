@@ -85,3 +85,9 @@ end
 
 map("n", "]e", diagnostic_jump(1), { desc = "Next error/warning" })
 map("n", "[e", diagnostic_jump(-1), { desc = "Previous error/warning" })
+
+-- Commit a lazy-lock.json bump by hand; the same thing runs automatically
+-- after :Lazy update (see lua/config/lockfile.lua)
+map("n", "<leader>lc", function()
+	require("config.lockfile").commit()
+end, { desc = "Commit lazy-lock.json" })

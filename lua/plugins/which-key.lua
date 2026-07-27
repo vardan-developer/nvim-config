@@ -6,6 +6,7 @@ return {
 			-- Group names shown in the popup for existing keymap prefixes
 			{ "<leader>f", group = "find / format" },
 			{ "<leader>h", group = "git hunk" },
+			{ "<leader>l", group = "lazy" },
 		},
 	},
 }
