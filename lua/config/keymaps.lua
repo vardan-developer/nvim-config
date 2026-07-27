@@ -71,3 +71,17 @@ end, { desc = "Format file/selection" })
 
 -- Copy the word with yw instead of yiw
 map({ "n" }, "yw", "yiw", { desc = "yank the inner word" })
+
+-- Jump between diagnostics, skipping hints/info (errors + warnings only)
+local function diagnostic_jump(count)
+	return function()
+		vim.diagnostic.jump({
+			count = count,
+			severity = { min = vim.diagnostic.severity.WARN },
+			float = true,
+		})
+	end
+end
+
+map("n", "]e", diagnostic_jump(1), { desc = "Next error/warning" })
+map("n", "[e", diagnostic_jump(-1), { desc = "Previous error/warning" })
