@@ -91,3 +91,6 @@ map("n", "[e", diagnostic_jump(-1), { desc = "Previous error/warning" })
 map("n", "<leader>lc", function()
 	require("config.lockfile").commit()
 end, { desc = "Commit lazy-lock.json" })
+
+-- Close a buffer but preserve the splits
+map({ "n" }, "<leader>bd", "<cmd>bp | bd #<cr>", { desc = "close the buffer but preserve the split layouts" })
