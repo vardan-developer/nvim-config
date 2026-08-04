@@ -10,6 +10,15 @@ return {
 			end
 		end
 
+		-- shorten long branch names with an ellipsis, tighter on narrow windows
+		local function truncate_branch(name)
+			local max_len = vim.fn.winwidth(0) < 120 and 20 or 35
+			if #name > max_len then
+				return name:sub(1, max_len - 1) .. "…"
+			end
+			return name
+		end
+
 		-- 󰛢 2/5 when the current file is harpooned, empty otherwise
 		local function harpoon_slot()
 			local ok, harpoon = pcall(require, "harpoon")
@@ -76,12 +85,21 @@ return {
 					},
 				},
 				lualine_b = {
-					{ "branch", cond = min_width(70) },
+					{ "branch", cond = min_width(70), fmt = truncate_branch },
 					{ "diff", cond = min_width(70) },
 					"diagnostics",
 				},
 				-- filename with path relative to cwd, [+] when modified
-				lualine_c = { { "filename", path = 1 }, harpoon_slot },
+				lualine_c = {
+					{
+						"filename",
+						path = 1,
+						shorting_target = function()
+							return math.max(90, math.floor(vim.fn.winwidth(0) * 0.5))
+						end,
+					},
+					harpoon_slot,
+				},
 				lualine_x = {
 					{ macro_recording, color = "DiagnosticError" },
 					-- code-hygiene warnings, shown only when something is off
